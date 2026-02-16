@@ -5,10 +5,10 @@ import { RootState } from '../../services/store';
 
 export const UnauthOnlyRoute = ({ children }: { children: ReactNode }) => {
   const user = useSelector((state: RootState) => state.user.user);
-  
+
   if (user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to='/' replace />;
   }
-  
+
   return <>{children}</>;
 };

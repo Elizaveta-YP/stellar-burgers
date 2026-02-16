@@ -1,7 +1,14 @@
 import { setCookie, getCookie } from './cookie';
-import { TIngredient, TOrder, TOrdersData, TUser } from './types';
+import { TIngredient, TOrder, TUser } from './types';
 
 const URL = process.env.BURGER_API_URL;
+
+const getAuthHeader = (): HeadersInit => {
+  const token = getCookie('accessToken');
+  if (!token) return {};
+  const cleanToken = token.replace(/^Bearer\s+/i, '');
+  return { authorization: `Bearer ${cleanToken}` };
+};
 
 const checkResponse = <T>(res: Response): Promise<T> =>
   res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
@@ -92,7 +99,7 @@ export const getOrdersApi = () =>
     method: 'GET',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
-      authorization: getCookie('accessToken')
+      ...getAuthHeader()
     } as HeadersInit
   }).then((data) => {
     if (data?.success) return data.orders;
@@ -109,7 +116,7 @@ export const orderBurgerApi = (data: string[]) =>
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
-      authorization: getCookie('accessToken')
+      ...getAuthHeader()
     } as HeadersInit,
     body: JSON.stringify({
       ingredients: data
@@ -209,7 +216,7 @@ type TUserResponse = TServerResponse<{ user: TUser }>;
 export const getUserApi = () =>
   fetchWithRefresh<TUserResponse>(`${URL}/auth/user`, {
     headers: {
-      authorization: getCookie('accessToken')
+      ...getAuthHeader()
     } as HeadersInit
   });
 
@@ -218,7 +225,7 @@ export const updateUserApi = (user: Partial<TRegisterData>) =>
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
-      authorization: getCookie('accessToken')
+      ...getAuthHeader()
     } as HeadersInit,
     body: JSON.stringify(user)
   });

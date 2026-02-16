@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, FC, useMemo } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useSelector } from '../../services/store';
-import { TTabMode } from '@utils-types';
+import { TTabMode, TIngredient } from '@utils-types';
 import { BurgerIngredientsUI } from '@ui';
 import { selectIngredients } from '../../services/ingredientsSlice/ingredientsSlice';
 
@@ -9,17 +9,17 @@ export const BurgerIngredients: FC = () => {
   const allIngredients = useSelector(selectIngredients);
 
   const buns = useMemo(
-    () => allIngredients.filter((item) => item.type === 'bun'),
+    () => allIngredients.filter((item: TIngredient) => item.type === 'bun'),
     [allIngredients]
   );
 
   const mains = useMemo(
-    () => allIngredients.filter((item) => item.type === 'main'),
+    () => allIngredients.filter((item: TIngredient) => item.type === 'main'),
     [allIngredients]
   );
 
   const sauces = useMemo(
-    () => allIngredients.filter((item) => item.type === 'sauce'),
+    () => allIngredients.filter((item: TIngredient) => item.type === 'sauce'),
     [allIngredients]
   );
 

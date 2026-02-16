@@ -5,13 +5,12 @@ import { IngredientsCategoryUI } from '../ui/ingredients-category';
 import { useSelector } from '../../services/store';
 import { constructorSelector } from '../../services/burgerConstructorSlice/burgerConstructorSlice';
 
-
 export const IngredientsCategory = forwardRef<
   HTMLUListElement,
   TIngredientsCategoryProps
 >(({ title, titleRef, ingredients }, ref) => {
   /** TODO: взять переменную из стора */
-   const constructorItems = useSelector(constructorSelector);
+  const constructorItems = useSelector(constructorSelector);
 
   const ingredientsCounters = useMemo(() => {
     const { bun, ingredients: constructorIngredients } = constructorItems;

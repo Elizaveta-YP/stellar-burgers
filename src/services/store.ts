@@ -13,7 +13,8 @@ import profileOrdersReducer from './profileOrdersSlice/profileOrdersSlice';
 import userReducer from './userSlice/userSlice';
 import { combineReducers } from '@reduxjs/toolkit';
 
-const rootReducer = combineReducers({ // Заменить на импорт настоящего редьюсера
+const rootReducer = combineReducers({
+  // Заменить на импорт настоящего редьюсера
   ingredients: ingredientsReducer,
   burgerConstructor: burgerConstructorReducer,
   order: orderReducer,
