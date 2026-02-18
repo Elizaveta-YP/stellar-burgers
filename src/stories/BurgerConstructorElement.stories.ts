@@ -1,7 +1,6 @@
 import { BurgerConstructorElementUI } from '@ui';
 import type { Meta, StoryObj } from '@storybook/react';
 
-
 const meta = {
   title: 'Example/BurgerConstructorElement',
   component: BurgerConstructorElementUI,
