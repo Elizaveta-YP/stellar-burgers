@@ -1,62 +1,41 @@
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from '../../services/store';
-import { selectUser, updateUser } from '../../services/userSlice/userSlice';
 
 export const Profile: FC = () => {
   /** TODO: взять переменную из стора */
-  const dispatch = useDispatch();
-  const user = useSelector(selectUser);
-  let initialFormValue = {
-    name: user?.name || '',
-    email: user?.email || '',
-    password: ''
+  const user = {
+    name: '',
+    email: ''
   };
 
-  const [formValue, setFormValue] = useState(initialFormValue);
-  const [isFormChanged, setIsFormChanged] = useState(false);
+  const [formValue, setFormValue] = useState({
+    name: user.name,
+    email: user.email,
+    password: ''
+  });
 
   useEffect(() => {
-    setFormValue((prevState) => {
-      const formValue = {
-        ...prevState,
-        name: user?.name || '',
-        email: user?.email || ''
-      };
-
-      initialFormValue = formValue;
-
-      return formValue;
-    });
+    setFormValue((prevState) => ({
+      ...prevState,
+      name: user?.name || '',
+      email: user?.email || ''
+    }));
   }, [user]);
 
-  useEffect(() => {
-    setIsFormChanged(
-      () => JSON.stringify(formValue) !== JSON.stringify(initialFormValue)
-    );
-  }, [formValue]);
+  const isFormChanged =
+    formValue.name !== user?.name ||
+    formValue.email !== user?.email ||
+    !!formValue.password;
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-
-    if (!isFormChanged) return;
-
-    const user: Partial<{ name: string; email: string; password?: string }> = {
-      name: formValue.name,
-      email: formValue.email
-    };
-
-    if (formValue.password) user.password = formValue.password;
-
-    dispatch(updateUser(user));
-    setFormValue((prev) => ({ ...prev, password: '' }));
   };
 
   const handleCancel = (e: SyntheticEvent) => {
     e.preventDefault();
     setFormValue({
-      name: user?.name || '',
-      email: user?.email || '',
+      name: user.name,
+      email: user.email,
       password: ''
     });
   };
@@ -77,4 +56,6 @@ export const Profile: FC = () => {
       handleInputChange={handleInputChange}
     />
   );
+
+  return null;
 };
