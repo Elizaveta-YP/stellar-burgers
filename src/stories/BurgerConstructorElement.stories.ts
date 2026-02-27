@@ -1,5 +1,6 @@
 import { BurgerConstructorElementUI } from '@ui';
 import type { Meta, StoryObj } from '@storybook/react';
+import { totalmem } from 'os';
 
 const meta = {
   title: 'Example/BurgerConstructorElement',
