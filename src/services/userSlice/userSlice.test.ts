@@ -12,12 +12,14 @@ const mockUser: TUser = {
 };
 
 interface AuthResponse {
+  success: boolean;
   user: TUser;
   accessToken: string;
   refreshToken: string;
 }
 
 const mockAuthResponse: AuthResponse = {
+  success: true,
   user: mockUser,
   accessToken: 'access-token',
   refreshToken: 'refresh-token'
@@ -33,16 +35,16 @@ describe('userSlice', () => {
       expect(state.isLoading).toBe(true);
     });
 
-    // it('сохраняет данные при fulfilled', () => {
-    //   const state = reducer(
-    //     undefined,
-    //     registerUser.fulfilled(mockAuthResponse, '', { name: '', email: '', password: '' })
-    //   );
-    //   expect(state.isLoading).toBe(false);
-    //   expect(state.user).toEqual(mockUser);
-    //   expect(state.accessToken).toEqual(mockAuthResponse.accessToken);
-    //   expect(state.refreshToken).toEqual(mockAuthResponse.refreshToken);
-    // });
+    it('сохраняет данные при fulfilled', () => {
+      const state = reducer(
+        undefined,
+        registerUser.fulfilled(mockAuthResponse, '', { name: '', email: '', password: '' })
+      );
+      expect(state.isLoading).toBe(false);
+      expect(state.user).toEqual(mockUser);
+      expect(state.accessToken).toEqual(mockAuthResponse.accessToken);
+      expect(state.refreshToken).toEqual(mockAuthResponse.refreshToken);
+    });
 
     it('сбрасывает isLoading при rejected', () => {
       const state = reducer(
@@ -62,16 +64,16 @@ describe('userSlice', () => {
       expect(state.isLoading).toBe(true);
     });
 
-    // it('сохраняет данные при fulfilled', () => {
-    //   const state = reducer(
-    //     undefined,
-    //     loginUser.fulfilled(mockAuthResponse, '', { email: '', password: '' })
-    //   );
-    //   expect(state.isLoading).toBe(false);
-    //   expect(state.user).toEqual(mockUser);
-    //   expect(state.accessToken).toEqual(mockAuthResponse.accessToken);
-    //   expect(state.refreshToken).toEqual(mockAuthResponse.refreshToken);
-    // });
+    it('сохраняет данные при fulfilled', () => {
+      const state = reducer(
+        undefined,
+        loginUser.fulfilled(mockAuthResponse, '', { email: '', password: '' })
+      );
+      expect(state.isLoading).toBe(false);
+      expect(state.user).toEqual(mockUser);
+      expect(state.accessToken).toEqual(mockAuthResponse.accessToken);
+      expect(state.refreshToken).toEqual(mockAuthResponse.refreshToken);
+    });
 
     it('сбрасывает isLoading при rejected', () => {
       const state = reducer(

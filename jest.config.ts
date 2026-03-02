@@ -8,7 +8,7 @@ import type { JestConfigWithTsJest } from 'ts-jest';
 const config: JestConfigWithTsJest = {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
-
+     testEnvironment: 'jsdom',
   // Stop running tests after `n` failures
   // bail: 0,
 
@@ -203,6 +203,11 @@ const config: JestConfigWithTsJest = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
+   moduleNameMapper: {
+    '^@api$': '<rootDir>/src/utils/burger-api',
+    '^@utils-types$': '<rootDir>/src/utils/types',
+  },
 };
+
 
 export default config;
