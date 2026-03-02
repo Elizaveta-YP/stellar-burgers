@@ -1,4 +1,3 @@
-// orderSlice.test.ts
 import { TOrder } from '@utils-types';
 import reducer, { createOrder, closeOrder } from './orderSlice';
 
@@ -46,7 +45,6 @@ describe('orderSlice', () => {
       createOrder.rejected(new Error('Ошибка'), '', [])
     );
     expect(state.isLoading).toBe(false);
-    // currentOrder и orderNumber не меняются (остаются null)
     expect(state.currentOrder).toBeNull();
     expect(state.orderNumber).toBeNull();
   });

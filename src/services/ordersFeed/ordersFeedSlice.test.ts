@@ -1,4 +1,3 @@
-// ordersFeedSlice.test.ts
 import { TOrdersData } from '@utils-types';
 import reducer, { fetchFeed } from './ordersFeedSlice';
 

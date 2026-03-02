@@ -1,4 +1,3 @@
-// burgerConstructorSlice.test.ts
 import { TIngredient } from '@utils-types';
 import reducer, {
   addToConstructor,

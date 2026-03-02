@@ -1,4 +1,3 @@
-// ingredientsSlice.test.ts
 import { TIngredient } from '@utils-types';
 import reducer, { fetchIngredients } from './ingredientsSlice';
 
@@ -39,6 +38,5 @@ describe('ingredientsSlice', () => {
       fetchIngredients.rejected(new Error('Ошибка'), '', undefined)
     );
     expect(state.isLoading).toBe(false);
-    // ошибка не сохраняется в state, поэтому проверяем только isLoading
   });
 });

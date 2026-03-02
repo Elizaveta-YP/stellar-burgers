@@ -1,4 +1,3 @@
-// profileOrdersSlice.test.ts
 import { TOrder } from '@utils-types';
 import reducer, { fetchProfileOrders, fetchOrderByNumber } from './profileOrdersSlice';
 
@@ -48,7 +47,6 @@ describe('profileOrdersSlice', () => {
         fetchOrderByNumber.pending('', 1)
       );
       expect(state.currentOrder).toBeNull();
-      // isLoading не меняется (в редьюсере не затронуто)
       expect(state.isLoading).toBe(false);
     });
 
@@ -58,9 +56,7 @@ describe('profileOrdersSlice', () => {
         fetchOrderByNumber.fulfilled(mockOrder, '', 1)
       );
       expect(state.currentOrder).toEqual(mockOrder);
-      // проверяем, что добавилось поле orderNumber (оно есть в коде, хотя не описано в типе)
       expect((state as any).orderNumber).toEqual(mockOrder.number);
-      // isLoading не меняется
       expect(state.isLoading).toBe(false);
     });
 
