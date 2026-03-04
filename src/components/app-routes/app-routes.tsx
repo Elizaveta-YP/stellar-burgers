@@ -114,7 +114,7 @@ export const AppRoutes: FC = () => {
           <Route
             path='/ingredients/:id'
             element={
-              <Modal title='Детали ингридиента' onClose={handleCloseModal}>
+              <Modal title='Детали ингредиента' onClose={handleCloseModal}>
                 <IngredientDetails />
               </Modal>
             }

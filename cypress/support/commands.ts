@@ -1,8 +1,8 @@
 Cypress.Commands.add('addIngredient', (name: string) => {
- cy.get('[data-testid="ingredient-item"]')
+  cy.get('[data-testid="ingredient-item"]')
     .contains('[data-testid="ingredient-name"]', name)
     .parents('[data-testid="ingredient-item"]')
-    .find('[data-testid="add-ingredient-btn"]')
+    .contains('button', 'Добавить')
     .click();
 });
 
