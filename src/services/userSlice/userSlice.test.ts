@@ -38,7 +38,11 @@ describe('userSlice', () => {
     it('сохраняет данные при fulfilled', () => {
       const state = reducer(
         undefined,
-        registerUser.fulfilled(mockAuthResponse, '', { name: '', email: '', password: '' })
+        registerUser.fulfilled(mockAuthResponse, '', {
+          name: '',
+          email: '',
+          password: ''
+        })
       );
       expect(state.isLoading).toBe(false);
       expect(state.user).toEqual(mockUser);
@@ -49,7 +53,11 @@ describe('userSlice', () => {
     it('сбрасывает isLoading при rejected', () => {
       const state = reducer(
         undefined,
-        registerUser.rejected(new Error('Ошибка'), '', { name: '', email: '', password: '' })
+        registerUser.rejected(new Error('Ошибка'), '', {
+          name: '',
+          email: '',
+          password: ''
+        })
       );
       expect(state.isLoading).toBe(false);
     });

@@ -1,5 +1,8 @@
 import { TOrder } from '@utils-types';
-import reducer, { fetchProfileOrders, fetchOrderByNumber } from './profileOrdersSlice';
+import reducer, {
+  fetchProfileOrders,
+  fetchOrderByNumber
+} from './profileOrdersSlice';
 
 const mockOrders: TOrder[] = [
   {
@@ -18,7 +21,10 @@ const mockOrder: TOrder = mockOrders[0];
 describe('profileOrdersSlice', () => {
   describe('fetchProfileOrders', () => {
     it('устанавливает isLoading при pending', () => {
-      const state = reducer(undefined, fetchProfileOrders.pending('', undefined));
+      const state = reducer(
+        undefined,
+        fetchProfileOrders.pending('', undefined)
+      );
       expect(state.isLoading).toBe(true);
     });
 

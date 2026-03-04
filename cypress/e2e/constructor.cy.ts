@@ -1,10 +1,3 @@
-const selectors = {
-  modalTitle: 'Детали ингредиента',
-  modalHeader: 'h3',
-  modalRoot: '#modals',
-  constructorItem: '.constructor-element'
-};
-
 const ingredientNames = {
   bun: 'Булка тестовая',
   main: 'Котлета тестовая',
@@ -13,9 +6,7 @@ const ingredientNames = {
 
 describe('Конструктор', () => {
   beforeEach(() => {
-    cy.intercept('GET', '**/ingredients', {
-      fixture: 'ingredients.json'
-    }).as('getIngredients');
+    cy.intercept('GET', '**/ingredients', { fixture: 'ingredients.json' }).as('getIngredients');
     cy.intercept('GET', '**/auth/user', { fixture: 'user.json' }).as('getUser');
     cy.setCookie('accessToken', 'test-accessToken');
     cy.window().then((win) => {
@@ -30,50 +21,46 @@ describe('Конструктор', () => {
     cy.addIngredient(ingredientNames.main);
     cy.addIngredient(ingredientNames.sauce);
 
-    cy.contains(`${ingredientNames.bun} (верх)`).should('exist');
-    cy.contains(`${ingredientNames.bun} (низ)`).should('exist');
-    cy.contains(selectors.constructorItem, ingredientNames.main).should(
-      'exist'
-    );
-    cy.contains(selectors.constructorItem, ingredientNames.sauce).should(
-      'exist'
-    );
+    cy.get('[data-testid="constructor-bun-top"]').should('contain', `${ingredientNames.bun} (верх)`);
+    cy.get('[data-testid="constructor-bun-bottom"]').should('contain', `${ingredientNames.bun} (низ)`);
+    cy.get('[data-testid="constructor-main-item"]').should('have.length', 2);
+    cy.get('[data-testid="constructor-main-item"]').eq(0).should('contain', ingredientNames.main);
+    cy.get('[data-testid="constructor-main-item"]').eq(1).should('contain', ingredientNames.sauce);
   });
 
   it('открывает и закрывает модальное окно ингредиента', () => {
     cy.openIngredientModal(ingredientNames.sauce);
-    cy.contains(selectors.modalTitle).should('exist');
-    cy.contains('.text_type_main-medium', ingredientNames.sauce).should(
-      'exist'
-    );
+    cy.get('[data-testid="modal"]').should('be.visible');
+    cy.get('[data-testid="modal-title"]').should('contain', 'Детали ингредиента');
+    cy.get('[data-testid="modal-content"]').should('contain', ingredientNames.sauce);
 
-    cy.contains(selectors.modalHeader, selectors.modalTitle)
-      .parent()
-      .find('button')
-      .click();
-    cy.contains(selectors.modalTitle).should('not.exist');
+    cy.get('[data-testid="modal-close"]').click();
+    cy.get('[data-testid="modal"]').should('not.exist');
 
-    cy.contains('li', ingredientNames.bun).click();
-    cy.contains(selectors.modalTitle).should('exist');
-    cy.get(selectors.modalRoot).children().last().click({ force: true });
-    cy.contains(selectors.modalTitle).should('not.exist');
+    cy.openIngredientModal(ingredientNames.bun);
+    cy.get('[data-testid="modal"]').should('be.visible');
+    cy.get('[data-testid="modal-overlay"]').click({ force: true });
+    cy.get('[data-testid="modal"]').should('not.exist');
   });
 
   it('оформляет заказ и очищает конструктор', () => {
-    cy.intercept('POST', '**/orders', { fixture: 'order.json' }).as(
-      'createOrder'
-    );
+    cy.intercept('POST', '**/orders', { fixture: 'order.json' }).as('createOrder');
 
     cy.addIngredient(ingredientNames.bun);
     cy.addIngredient(ingredientNames.main);
     cy.addIngredient(ingredientNames.sauce);
-    cy.contains('Оформить заказ').click();
+    cy.get('[data-testid="order-button"]').click();
 
     cy.wait('@createOrder');
-    cy.contains('123456').should('exist');
+    cy.get('[data-testid="modal"]').contains('123456').should('be.visible');
 
-    cy.get(selectors.modalRoot).children().last().click({ force: true });
-    cy.contains('Выберите булки').should('exist');
-    cy.contains('Выберите начинку').should('exist');
+    cy.get('[data-testid="modal-close"]').click();
+    cy.get('[data-testid="modal"]').should('not.exist');
+
+    cy.get('[data-testid="constructor-bun-top"]').should('not.exist');
+    cy.get('[data-testid="constructor-bun-bottom"]').should('not.exist');
+    cy.get('[data-testid="constructor-main-item"]').should('not.exist');
+    cy.contains('Выберите булки').should('be.visible');
+    cy.contains('Выберите начинку').should('be.visible');
   });
 });

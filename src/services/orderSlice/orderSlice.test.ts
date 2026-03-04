@@ -30,10 +30,7 @@ describe('orderSlice', () => {
   });
 
   it('сохраняет данные при fulfilled', () => {
-    const state = reducer(
-      undefined,
-      createOrder.fulfilled(mockOrder, '', [])
-    );
+    const state = reducer(undefined, createOrder.fulfilled(mockOrder, '', []));
     expect(state.isLoading).toBe(false);
     expect(state.currentOrder).toEqual(mockOrder);
     expect(state.orderNumber).toEqual(mockOrder.number);

@@ -39,7 +39,10 @@ describe('burgerConstructorSlice', () => {
     const state = reducer(undefined, addToConstructor(main));
     expect(state.bun).toBeNull();
     expect(state.ingredients).toHaveLength(1);
-    expect(state.ingredients[0]).toMatchObject({ ...main, id: expect.any(String) });
+    expect(state.ingredients[0]).toMatchObject({
+      ...main,
+      id: expect.any(String)
+    });
   });
 
   it('удаляет ингредиент по индексу', () => {
